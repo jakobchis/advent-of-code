@@ -1,34 +1,6 @@
-const lineReader = require("line-reader");
+const fs = require("fs");
 
-function readFile() {
-    let rules = {};
-
-    return new Promise((resolve, reject) => {
-        lineReader.eachLine("day-7.txt", function (line, last) {
-            let bag = line.split(" bags contain ")[0];
-            let subBags = line.split(" bags contain ")[1].split(", ");
-            subBagsObject = {};
-            subBags.forEach((subBag) => {
-                if (subBag === "no other bags.") {
-                    subBagsObject[subBag] = 1;
-                } else {
-                    const bagName = format(subBag).substring(2);
-                    const bagCount = parseInt(subBag.substring(0, 1));
-                    subBagsObject[bagName] = bagCount;
-                }
-            });
-
-            rules[bag] = subBagsObject;
-
-            if (last) {
-                // console.log(rules);
-                resolve(rules);
-            }
-        });
-    });
-}
-
-function format(bag) {
+const format = (bag) => {
     if (bag !== "no other bags.") {
         if (bag.includes(" bags.")) {
             bag = bag.replace(" bags.", "");
@@ -41,9 +13,9 @@ function format(bag) {
         }
     }
     return bag;
-}
+};
 
-function containsColor(color, rules, bag, matched) {
+const containsColor = (color, rules, bag, matched) => {
     for (const subBag in rules[bag]) {
         if (subBag === color) {
             return true;
@@ -56,16 +28,15 @@ function containsColor(color, rules, bag, matched) {
             }
         }
     }
-}
+};
 
-function nestedBags(color, rules) {
+const numberOfNestedBags = (color, rules) => {
     let count = 0;
 
     for (const subBag in rules[color]) {
         if (subBag !== "no other bags.") {
             count += rules[color][subBag];
-            let nestedCount = nestedBags(subBag, rules);
-            console.log(nestedCount);
+            let nestedCount = numberOfNestedBags(subBag, rules);
             if (nestedCount > 0) {
                 count += rules[color][subBag] * nestedCount;
             }
@@ -73,10 +44,35 @@ function nestedBags(color, rules) {
     }
 
     return count;
-}
+};
 
-async function part1() {
-    let rules = await readFile();
+const readFile = () => {
+    const file = fs.readFileSync("day-7.txt", "utf8");
+    let rules = {};
+
+    for (const line of file.split("\n")) {
+        const bag = line.split(" bags contain ")[0];
+        const subBags = line.split(" bags contain ")[1].split(", ");
+        let subBagsObject = {};
+
+        subBags.forEach((subBag) => {
+            if (subBag === "no other bags.") {
+                subBagsObject[subBag] = 0;
+            } else {
+                const bagName = format(subBag).substring(2);
+                const bagCount = parseInt(subBag.substring(0, 1));
+                subBagsObject[bagName] = bagCount;
+            }
+        });
+
+        rules[bag] = subBagsObject;
+    }
+
+    return rules;
+};
+
+const part1 = () => {
+    const rules = readFile();
     let count = 0;
 
     for (const bag in rules) {
@@ -86,14 +82,13 @@ async function part1() {
     }
 
     console.log("Part 1 count: " + count);
-}
+};
 
-async function part2() {
-    let rules = await readFile();
-    let count = nestedBags("shiny gold", rules);
-
+const part2 = () => {
+    const rules = readFile();
+    let count = numberOfNestedBags("shiny gold", rules);
     console.log("Part 2 count: " + count);
-}
+};
 
 part1();
 part2();
