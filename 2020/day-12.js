@@ -1,4 +1,3 @@
-const { Console, countReset } = require("console");
 const fs = require("fs");
 
 const readFile = () => {
