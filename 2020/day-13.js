@@ -48,7 +48,7 @@ const part2 = () => {
     const things = readFile();
     const buses = things[1];
     let found = false;
-    let increment = 0;
+    let increment = buses[0];
 
     while (!found) {
         increment += buses[0];
@@ -64,7 +64,7 @@ const part2 = () => {
         }
     }
 
-    console.log("Part 2 timestamp: " + increment);
+    console.log("Part 2 timestamp: " + pos);
 };
 
 part1();
