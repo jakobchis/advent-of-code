@@ -61,6 +61,7 @@ const part2 = () => {
     const yourTicket = lines.slice(0, lines.indexOf(lineBreak2));
     const nearbyTickets = lines.slice(lines.indexOf(lineBreak2) + 2);
 
+    // create dictionary of rules and their ranges
     let rulesDict = {};
     for (let i = 0; i < rules.length; i++) {
         let name = rules[i].slice(0, rules[i].indexOf(":"));
@@ -78,22 +79,23 @@ const part2 = () => {
         };
     }
 
+    // remove invalid tickets and push to new array
     let validTickets = [];
     for (const ticket of nearbyTickets) {
         const ticketSplit = ticket.split(",");
         let ticketValid = true;
         for (const num of ticketSplit) {
-            let valid = false;
+            let numberValid = false;
             for (const rule in rulesDict) {
                 if (
                     between(num, rulesDict[rule].lowMin, rulesDict[rule].lowMax) ||
                     between(num, rulesDict[rule].highMin, rulesDict[rule].highMax)
                 ) {
-                    valid = true;
+                    numberValid = true;
                     break;
                 }
             }
-            if (!valid) {
+            if (!numberValid) {
                 ticketValid = false;
                 break;
             }
@@ -103,6 +105,7 @@ const part2 = () => {
         }
     }
 
+    // find possible column matches for each rule
     for (let n = 0; n < validTickets[0].length; n++) {
         let possibleRules = [];
         for (let i = 0; i < validTickets.length; i++) {
@@ -115,11 +118,13 @@ const part2 = () => {
                         possibleRules.push(rule);
                     }
                 } else {
-                    if (
-                        !between(validTickets[i][n], rulesDict[rule].lowMin, rulesDict[rule].lowMax) &&
-                        !between(validTickets[i][n], rulesDict[rule].highMin, rulesDict[rule].highMax)
-                    ) {
-                        possibleRules.splice(possibleRules.indexOf(rule), 1);
+                    if (possibleRules.includes(rule)) {
+                        if (
+                            !between(validTickets[i][n], rulesDict[rule].lowMin, rulesDict[rule].lowMax) &&
+                            !between(validTickets[i][n], rulesDict[rule].highMin, rulesDict[rule].highMax)
+                        ) {
+                            possibleRules.splice(possibleRules.indexOf(rule), 1);
+                        }
                     }
                 }
             }
@@ -130,6 +135,8 @@ const part2 = () => {
         }
     }
 
+    // narrow down possible column matches and solve each rule such that
+    // each rule maps to exactly one column
     let allSolved = false;
     let solvedColumns = [];
     while (!allSolved) {
