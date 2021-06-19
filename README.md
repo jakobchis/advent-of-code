@@ -1,1 +1,1 @@
-Solutions for advent of code challenges
+advent of code solutions
