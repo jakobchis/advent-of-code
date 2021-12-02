@@ -47,7 +47,7 @@ const numberOfNestedBags = (color, rules) => {
 };
 
 const readFile = () => {
-    const file = fs.readFileSync("day-7.txt", "utf8");
+    const file = fs.readFileSync("day-07.txt", "utf8");
     let rules = {};
 
     for (const line of file.split("\n")) {

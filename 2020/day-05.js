@@ -26,7 +26,7 @@ function decode(line) {
 function part1() {
     let highestSeatId = 0;
 
-    lineReader.eachLine("day-5.txt", function (line, last) {
+    lineReader.eachLine("day-05.txt", function (line, last) {
         let decodedSeat = decode(line);
 
         if (decodedSeat.seatId > highestSeatId) {
@@ -41,7 +41,7 @@ function part1() {
 
 function part2() {
     let decodedSeats = [];
-    lineReader.eachLine("day-5.txt", function (line, last) {
+    lineReader.eachLine("day-05.txt", function (line, last) {
         let decodedSeat = decode(line);
         decodedSeats.push(decodedSeat);
 

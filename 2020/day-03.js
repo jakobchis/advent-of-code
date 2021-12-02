@@ -13,7 +13,7 @@ function part1(slope) {
     let index = 0;
 
     return new Promise((resolve, reject) => {
-        lineReader.eachLine("day-3.txt", function (line, last) {
+        lineReader.eachLine("day-03.txt", function (line, last) {
             index += 1;
 
             if (toboggan.y === index) {

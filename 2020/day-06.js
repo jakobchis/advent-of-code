@@ -4,7 +4,7 @@ function part1() {
     let questions = [];
     let yesCount = 0;
 
-    lineReader.eachLine("day-6.txt", function (line, last) {
+    lineReader.eachLine("day-06.txt", function (line, last) {
         if (line === "") {
             yesCount += questions.length;
             questions = [];
@@ -28,7 +28,7 @@ function part2() {
     let yesCount = 0;
     let firstLine = true;
 
-    lineReader.eachLine("day-6.txt", function (line, last) {
+    lineReader.eachLine("day-06.txt", function (line, last) {
         if (line === "") {
             yesCount += questions.length;
             questions = [];

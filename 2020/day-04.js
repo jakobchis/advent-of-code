@@ -79,7 +79,7 @@ function part1() {
     let validPassports = 0;
     let currentPassport = "";
 
-    lineReader.eachLine("day-4.txt", function (line, last) {
+    lineReader.eachLine("day-04.txt", function (line, last) {
         if (line === "") {
             if (checkPresent(currentPassport)) {
                 validPassports += 1;
@@ -105,7 +105,7 @@ function part2() {
     let validPassports = 0;
     let currentPassport = "";
 
-    lineReader.eachLine("day-4.txt", function (line, last) {
+    lineReader.eachLine("day-04.txt", function (line, last) {
         if (line === "") {
             if (checkPresent(currentPassport) && checkValid(currentPassport)) {
                 validPassports += 1;

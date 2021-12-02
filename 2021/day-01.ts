@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 
-const measurements = readFileSync("day-1.txt", "utf8").split("\n");
+const measurements = readFileSync("day-01.txt", "utf8").split("\n");
 
 const part1 = () => {
   let numOfIncreases = 0;

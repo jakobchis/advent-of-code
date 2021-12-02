@@ -3,7 +3,7 @@ const lineReader = require("line-reader");
 function part1() {
     let validPasswords = 0;
 
-    lineReader.eachLine("day-2.txt", function (line, last) {
+    lineReader.eachLine("day-02.txt", function (line, last) {
         const password = line.slice(line.indexOf(": ") + 2);
         const policy = line.slice(0, line.indexOf(":"));
 
@@ -31,7 +31,7 @@ function part1() {
 function part2() {
     let validPasswords = 0;
 
-    lineReader.eachLine("day-2.txt", function (line, last) {
+    lineReader.eachLine("day-02.txt", function (line, last) {
         const password = line.slice(line.indexOf(": ") + 2);
         const policy = line.slice(0, line.indexOf(":"));
 
