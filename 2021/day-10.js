@@ -75,7 +75,7 @@ const part2 = () => {
       completionString.forEach((character) => {
         points = points * 5 + completionPointsMap[character];
       });
-      
+
       completionPoints.push(points);
     }
   });
@@ -85,6 +85,5 @@ const part2 = () => {
   ];
 };
 
-// TODO: refactor
 console.log(part1());
 console.log(part2());
