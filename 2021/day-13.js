@@ -1,4 +1,4 @@
-import { writeFileSync, readFileSync, write } from "fs";
+import { readFileSync } from "fs";
 
 let [dots, foldInstructions] = readFileSync("day-13.txt", "utf8").split("\n\n");
 dots = dots.split("\n");
