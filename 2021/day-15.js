@@ -39,28 +39,47 @@ const part1 = () => {
 };
 
 const part2 = () => {
+  // TODO: refactor this
   const input = file.split("\n").map((row) => row.split("").map(Number));
-
-  console.log(["input", input]);
 
   const scaleFactor = 5;
   const inputLength = input.length;
-  let increaseAmount = 1;
-  let scaledInput = [...input];
+
+  let scaledInput = [];
+  let inputYIncrement = [...input];
+  let inputXIncrement = [...input];
+  let yCounter = 0;
+  let xCounter = 0;
 
   for (let i = 0; i < inputLength * scaleFactor; i++) {
     scaledInput.push([]);
-    for (let n = inputLength; n < inputLength * scaleFactor; n++) {
-      scaledInput[i][n] =
-        scaledInput[i < inputLength ? i : i - inputLength][n - inputLength] + 1;
-    }
-  }
 
-  console.log(["scaledInput", scaledInput]);
+    if (yCounter === inputLength) {
+      yCounter = 0;
+      inputYIncrement = inputYIncrement.map((row) => {
+        return row.map((vertex) => (vertex === 9 ? 1 : vertex + 1));
+      });
+    }
+
+    inputXIncrement = [...inputYIncrement];
+
+    for (let n = 0; n < inputLength * scaleFactor; n++) {
+      scaledInput[i][n] = inputXIncrement[yCounter][xCounter];
+      xCounter += 1;
+
+      if (xCounter === inputLength) {
+        xCounter = 0;
+        inputXIncrement = inputXIncrement.map((row) => {
+          return row.map((vertex) => (vertex === 9 ? 1 : vertex + 1));
+        });
+      }
+    }
+
+    yCounter += 1;
+  }
 
   return dijkstra(scaledInput, [0, 0]);
 };
 
 console.log(`Part 1 answer: ${part1()}`);
-// TODO: finish part 2
-// console.log(`Part 2 answer: ${part2()}`);
+console.log(`Part 2 answer: ${part2()}`);
