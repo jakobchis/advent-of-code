@@ -39,7 +39,6 @@ const part1 = () => {
 };
 
 const part2 = () => {
-  // TODO: refactor this
   const input = file.split("\n").map((row) => row.split("").map(Number));
 
   const scaleFactor = 5;
