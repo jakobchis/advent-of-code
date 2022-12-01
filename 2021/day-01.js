@@ -33,20 +33,6 @@ const part2 = () => {
     }
   }
 
-  // measurements.forEach((measurement, index) => {
-  //   if (index >= 3) {
-  //     const prevThreeSum = measurements
-  //       .slice(index - 3, index)
-  //       .reduce((a, b) => Number(a) + Number(b), 0);
-  //     const currThreeSum = measurements
-  //       .slice(index - 2, index + 1)
-  //       .reduce((a, b) => Number(a) + Number(b), 0);
-  //     if (currThreeSum > prevThreeSum) {
-  //       numOfIncreases += 1;
-  //     }
-  //   }
-  // });
-
   return numOfIncreases;
 };
 

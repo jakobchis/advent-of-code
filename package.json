@@ -15,6 +15,7 @@
   "bugs": {
     "url": "https://github.com/jakobchis/advent-of-code/issues"
   },
+  "type": "module",
   "homepage": "https://github.com/jakobchis/advent-of-code#readme",
   "dependencies": {}
 }
