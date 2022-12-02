@@ -4,7 +4,7 @@ const testData = readFileSync("day-01.txt", "utf8")
   .split("\n\n")
   .map((elfGroup) => elfGroup.split("\n"));
 
-const getElfWithMostCalories = () => {
+const part1 = () => {
   let mostCalories = 0;
 
   testData.forEach((elfGroup) => {
@@ -21,7 +21,7 @@ const getElfWithMostCalories = () => {
   return mostCalories;
 };
 
-const getTop3ElvesWithMostCalories = () => {
+const part2 = () => {
   let mostCalories = [0, 0, 0];
 
   testData.forEach((elfGroup) => {
@@ -40,5 +40,5 @@ const getTop3ElvesWithMostCalories = () => {
   return mostCalories.reduce((acc, curr) => (acc += curr), 0);
 };
 
-console.log(getElfWithMostCalories());
-console.log(getTop3ElvesWithMostCalories());
+console.log(part1());
+console.log(part2());
