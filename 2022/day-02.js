@@ -42,23 +42,21 @@ const part1 = () => {
 };
 
 const part2 = () => {
-  const scoreMap = {
-    A: 1,
-    B: 2,
-    C: 3,
-  };
-  const winnerLoserMap = {
+  const moveMap = {
     A: {
       winner: "B",
       loser: "C",
+      baseScore: 1,
     },
     B: {
       winner: "C",
       loser: "A",
+      baseScore: 2,
     },
     C: {
       winner: "A",
       loser: "B",
+      baseScore: 3,
     },
   };
   let totalScore = 0;
@@ -68,19 +66,19 @@ const part2 = () => {
 
     switch (resultNeeded) {
       case "X":
-        myMove = winnerLoserMap[oppMove].loser;
+        myMove = moveMap[oppMove].loser;
         break;
       case "Y":
         myMove = oppMove;
         totalScore += 3;
         break;
       case "Z":
-        myMove = winnerLoserMap[oppMove].winner;
+        myMove = moveMap[oppMove].winner;
         totalScore += 6;
         break;
     }
 
-    totalScore += scoreMap[myMove];
+    totalScore += moveMap[myMove].baseScore;
   });
 
   return totalScore;
