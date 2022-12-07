@@ -17,5 +17,7 @@
   },
   "type": "module",
   "homepage": "https://github.com/jakobchis/advent-of-code#readme",
-  "dependencies": {}
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }
