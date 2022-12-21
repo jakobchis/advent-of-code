@@ -35,13 +35,4 @@ const part1 = () => {
   return surfaceArea;
 };
 
-const part2 = () => {
-  let surfaceArea = 0;
-
-  let bounds = { x: 0, y: 0, z: 0 };
-
-  return surfaceArea;
-};
-
 console.log(part1());
-console.log(part2());
