@@ -8,15 +8,16 @@ namespace AOC2023.Days
 {
     internal class Day01
     {
-        static string contents = File.ReadAllText(
+        static string input = File.ReadAllText(
             "C:\\Users\\jakob\\Documents\\GitHub\\advent-of-code\\AOC2023\\AOC2023\\Days\\Day01.txt"
         );
-        static string[] splitContents = contents.Split("\r\n");
 
-        public static void Part1(string[]? splitContentsOverride = null)
+        public static void Part1()
         {
+            var splitContents = input.Split("\r\n");
+
             var calibrationValues = new List<int>();
-            foreach (var item in splitContentsOverride ?? splitContents)
+            foreach (var item in splitContents)
             {
                 string firstDigit = "0";
                 for (var i = 0; i < item.Length; i++)
@@ -40,11 +41,13 @@ namespace AOC2023.Days
                 calibrationValues.Add(int.Parse($"{firstDigit}{lastDigit}"));
             }
 
-            Console.WriteLine(calibrationValues.Sum());
+            Console.WriteLine($"Part 1: {calibrationValues.Sum()}");
         }
 
         public static void Part2()
         {
+            var splitContents = input.Split("\r\n");
+
             var newSplitContents = new List<string>();
             foreach (var item in splitContents)
             {
@@ -61,7 +64,32 @@ namespace AOC2023.Days
                 );
             }
 
-            Part1(newSplitContents.ToArray());
+            var calibrationValues = new List<int>();
+            foreach (var item in splitContents)
+            {
+                string firstDigit = "0";
+                for (var i = 0; i < item.Length; i++)
+                {
+                    if (int.TryParse(item[i].ToString(), out _))
+                    {
+                        firstDigit = item[i].ToString();
+                        break;
+                    }
+                }
+                string lastDigit = "0";
+                for (var i = (item.Length - 1); i > -1; i--)
+                {
+                    if (int.TryParse(item[i].ToString(), out _))
+                    {
+                        lastDigit = item[i].ToString();
+                        break;
+                    }
+                }
+
+                calibrationValues.Add(int.Parse($"{firstDigit}{lastDigit}"));
+            }
+
+            Console.WriteLine($"Part 2: {calibrationValues.Sum()}");
         }
     }
 }
