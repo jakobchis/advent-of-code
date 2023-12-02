@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AOC2023.Days
+﻿namespace AOC2023.Days
 {
     internal class Day02
     {
@@ -21,21 +15,21 @@ namespace AOC2023.Days
                 { "blue", 14 }
             };
 
-            var games = input.Split("\r\n");
+            var games = input.CoolerSplit("\r\n");
             int gameIdsSum = 0;
             foreach (var game in games)
             {
                 bool gameIsValid = true;
-                var gameId = game.Split(": ")[0].Split(" ")[1];
-                var allCubes = game.Split(": ")[1];
-                var cubeSubsets = allCubes.Split("; ");
+                var gameId = game.CoolerSplit(": ")[0].CoolerSplit(" ")[1];
+                var allCubes = game.CoolerSplit(": ")[1];
+                var cubeSubsets = allCubes.CoolerSplit("; ");
                 foreach (var cubeSubset in cubeSubsets)
                 {
-                    var cubeSubsetCubes = cubeSubset.Split(", ");
+                    var cubeSubsetCubes = cubeSubset.CoolerSplit(", ");
                     foreach (var cubeSubsetCube in cubeSubsetCubes)
                     {
-                        var cubeCount = int.Parse(cubeSubsetCube.Split(" ")[0]);
-                        var cubeColour = cubeSubsetCube.Split(" ")[1];
+                        var cubeCount = int.Parse(cubeSubsetCube.CoolerSplit(" ")[0]);
+                        var cubeColour = cubeSubsetCube.CoolerSplit(" ")[1];
                         int value;
                         if (maxCounts.TryGetValue(cubeColour, out value))
                         {
@@ -58,7 +52,7 @@ namespace AOC2023.Days
 
         public static void Part2()
         {
-            var games = input.Split("\r\n");
+            var games = input.CoolerSplit("\r\n");
             int gamePowersSum = 0;
             foreach (var game in games)
             {
@@ -68,17 +62,16 @@ namespace AOC2023.Days
                     { "green", 0 },
                     { "blue", 0 }
                 };
-
-                var gameId = game.Split(": ")[0].Split(" ")[1];
-                var allCubes = game.Split(": ")[1];
-                var cubeSubsets = allCubes.Split("; ");
+                var gameId = game.CoolerSplit(": ")[0].CoolerSplit(" ")[1];
+                var allCubes = game.CoolerSplit(": ")[1];
+                var cubeSubsets = allCubes.CoolerSplit("; ");
                 foreach (var cubeSubset in cubeSubsets)
                 {
-                    var cubeSubsetCubes = cubeSubset.Split(", ");
+                    var cubeSubsetCubes = cubeSubset.CoolerSplit(", ");
                     foreach (var cubeSubsetCube in cubeSubsetCubes)
                     {
-                        var cubeCount = int.Parse(cubeSubsetCube.Split(" ")[0]);
-                        var cubeColour = cubeSubsetCube.Split(" ")[1];
+                        var cubeCount = int.Parse(cubeSubsetCube.CoolerSplit(" ")[0]);
+                        var cubeColour = cubeSubsetCube.CoolerSplit(" ")[1];
                         int value;
                         if (highestCountSeen.TryGetValue(cubeColour, out value))
                         {

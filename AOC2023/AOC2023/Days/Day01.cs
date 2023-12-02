@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AOC2023.Days
+﻿namespace AOC2023.Days
 {
     internal class Day01
     {
@@ -14,7 +8,7 @@ namespace AOC2023.Days
 
         public static void Part1()
         {
-            var splitContents = input.Split("\r\n");
+            var splitContents = input.CoolerSplit("\r\n");
 
             var calibrationValues = new List<int>();
             foreach (var item in splitContents)
@@ -46,7 +40,7 @@ namespace AOC2023.Days
 
         public static void Part2()
         {
-            var splitContents = input.Split("\r\n");
+            var splitContents = input.CoolerSplit("\r\n");
 
             var newSplitContents = new List<string>();
             foreach (var item in splitContents)
@@ -65,7 +59,7 @@ namespace AOC2023.Days
             }
 
             var calibrationValues = new List<int>();
-            foreach (var item in splitContents)
+            foreach (var item in newSplitContents)
             {
                 string firstDigit = "0";
                 for (var i = 0; i < item.Length; i++)
