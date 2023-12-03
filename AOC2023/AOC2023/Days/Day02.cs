@@ -6,7 +6,7 @@
             "C:\\Users\\jakob\\Documents\\GitHub\\advent-of-code\\AOC2023\\AOC2023\\Days\\Day02.txt"
         );
 
-        public static void Part1(string[]? splitContentsOverride = null)
+        public static void Part1()
         {
             var maxCounts = new Dictionary<string, int>
             {
