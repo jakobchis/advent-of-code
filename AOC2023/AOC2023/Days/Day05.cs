@@ -72,13 +72,14 @@ namespace AOC2023.Days
 
         public static long GetNextNumber(long[][] mapping, long prevNumber)
         {
-            for (var a = 0; a < mapping.Length; a++)
+            for (long a = 0; a < mapping.Length; a++)
             {
-                var bottomOfRange = mapping[a][1];
-                var topOfRange = bottomOfRange + mapping[a][2];
+                long bottomOfRange = mapping[a][1];
+                // - 1 because non inclusive range end
+                long topOfRange = bottomOfRange + mapping[a][2] - 1;
                 if (prevNumber >= bottomOfRange && prevNumber <= topOfRange)
                 {
-                    var diff = prevNumber - bottomOfRange;
+                    long diff = prevNumber - bottomOfRange;
                     return mapping[a][0] + diff;
                 }
             }
@@ -110,38 +111,34 @@ namespace AOC2023.Days
 
         public static void Part2()
         {
-            var locationNumbers = new List<long>();
-            var seedsRanges = new List<long>();
+            long lowestLocationNumber = long.MaxValue;
 
-            for (var i = 0; i < seeds.Length; i++)
+            for (long i = 0; i < seeds.Length; i++)
             {
-                if (i != 0 && i % 2 == 0)
+                if ((i + 1) % 2 == 0)
                 {
-                    seedsRanges.Add(seeds[i - 1]);
-                    var diff = seeds[i] - seeds[i - 1];
-                    for (var x = 1; x < diff + 1; x++)
+                    Console.WriteLine($"Current lowest location {lowestLocationNumber}");
+                    for (long x = 0; x < seeds[i]; x++)
                     {
-                        seedsRanges.Add(seeds[i - 1] + x);
+                        long nextNumber = seeds[i - 1] + x;
+
+                        nextNumber = GetNextNumber(seedToSoil, nextNumber);
+                        nextNumber = GetNextNumber(soilToFertilizer, nextNumber);
+                        nextNumber = GetNextNumber(fertilizerToWater, nextNumber);
+                        nextNumber = GetNextNumber(waterToLight, nextNumber);
+                        nextNumber = GetNextNumber(lightToTemperature, nextNumber);
+                        nextNumber = GetNextNumber(temperatureToHumidity, nextNumber);
+                        nextNumber = GetNextNumber(humidityToLocation, nextNumber);
+
+                        if (nextNumber < lowestLocationNumber)
+                        {
+                            lowestLocationNumber = nextNumber;
+                        }
                     }
                 }
             }
 
-            foreach (var seed in seedsRanges)
-            {
-                var nextNumber = seed;
-
-                nextNumber = GetNextNumber(seedToSoil, nextNumber);
-                nextNumber = GetNextNumber(soilToFertilizer, nextNumber);
-                nextNumber = GetNextNumber(fertilizerToWater, nextNumber);
-                nextNumber = GetNextNumber(waterToLight, nextNumber);
-                nextNumber = GetNextNumber(lightToTemperature, nextNumber);
-                nextNumber = GetNextNumber(temperatureToHumidity, nextNumber);
-                nextNumber = GetNextNumber(humidityToLocation, nextNumber);
-
-                locationNumbers.Add(nextNumber);
-            }
-
-            Console.WriteLine($"Part 2: {locationNumbers.OrderBy(x => x).First()}");
+            Console.WriteLine($"Part 2: {lowestLocationNumber}");
         }
     }
 }
