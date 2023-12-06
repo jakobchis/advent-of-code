@@ -117,24 +117,34 @@ namespace AOC2023.Days
             {
                 if ((i + 1) % 2 == 0)
                 {
+                    Console.WriteLine($"On iteration {i + 1}");
                     Console.WriteLine($"Current lowest location {lowestLocationNumber}");
-                    for (long x = 0; x < seeds[i]; x++)
+                    var parallelOptions = new ParallelOptions()
                     {
-                        long nextNumber = seeds[i - 1] + x;
-
-                        nextNumber = GetNextNumber(seedToSoil, nextNumber);
-                        nextNumber = GetNextNumber(soilToFertilizer, nextNumber);
-                        nextNumber = GetNextNumber(fertilizerToWater, nextNumber);
-                        nextNumber = GetNextNumber(waterToLight, nextNumber);
-                        nextNumber = GetNextNumber(lightToTemperature, nextNumber);
-                        nextNumber = GetNextNumber(temperatureToHumidity, nextNumber);
-                        nextNumber = GetNextNumber(humidityToLocation, nextNumber);
-
-                        if (nextNumber < lowestLocationNumber)
+                        MaxDegreeOfParallelism = Environment.ProcessorCount
+                    };
+                    Parallel.For(
+                        0,
+                        seeds[i],
+                        parallelOptions,
+                        (x) =>
                         {
-                            lowestLocationNumber = nextNumber;
+                            long nextNumber = seeds[i - 1] + x;
+
+                            nextNumber = GetNextNumber(seedToSoil, nextNumber);
+                            nextNumber = GetNextNumber(soilToFertilizer, nextNumber);
+                            nextNumber = GetNextNumber(fertilizerToWater, nextNumber);
+                            nextNumber = GetNextNumber(waterToLight, nextNumber);
+                            nextNumber = GetNextNumber(lightToTemperature, nextNumber);
+                            nextNumber = GetNextNumber(temperatureToHumidity, nextNumber);
+                            nextNumber = GetNextNumber(humidityToLocation, nextNumber);
+
+                            if (nextNumber < lowestLocationNumber)
+                            {
+                                lowestLocationNumber = nextNumber;
+                            }
                         }
-                    }
+                    );
                 }
             }
 
