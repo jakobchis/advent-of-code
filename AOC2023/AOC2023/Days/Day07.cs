@@ -12,16 +12,23 @@ namespace AOC2023.Days
             "C:\\Users\\jakob\\Documents\\GitHub\\advent-of-code\\AOC2023\\AOC2023\\Days\\Day07.txt"
         );
 
-        public static int GetHandType(string[] hand)
+        public class Hand
+        {
+            public string HandCards = "";
+            public int HandType;
+            public int HandBid;
+        }
+
+        public static int GetHandType(List<string> hand)
         {
             if (hand.GroupBy(c => c).Where(g => g.Count() == 5).Count() == 1)
             {
-                //return "five of a kind";
+                // five of a kind
                 return 7;
             }
             else if (hand.GroupBy(c => c).Where(g => g.Count() == 4).Count() == 1)
             {
-                //return "four of a kind";
+                // four of a kind
                 return 6;
             }
             else if (
@@ -29,36 +36,29 @@ namespace AOC2023.Days
                 && hand.GroupBy(c => c).Where(g => g.Count() == 2).Count() == 1
             )
             {
-                //return "full house";
+                // full house
                 return 5;
             }
             else if (hand.GroupBy(c => c).Where(g => g.Count() == 3).Count() == 1)
             {
-                //return "three of a kind";
+                // three of a kind
                 return 4;
             }
             else if (hand.GroupBy(c => c).Where(g => g.Count() == 2).Count() == 2)
             {
-                //return "two pair";
+                // two pair
                 return 3;
             }
             else if (hand.GroupBy(c => c).Where(g => g.Count() == 2).Count() == 1)
             {
-                //return "one pair";
+                // one pair
                 return 2;
             }
             else
             {
-                //return "high card";
+                // high card
                 return 1;
             }
-        }
-
-        public class SortedHand
-        {
-            public string Hand;
-            public int HandType;
-            public int Bid;
         }
 
         public static void Part1()
@@ -79,26 +79,26 @@ namespace AOC2023.Days
                 { "K", 13 },
                 { "A", 14 }
             };
-            var handsWithBids = input.Split("\r\n");
-            List<SortedHand> sortedHands = new List<SortedHand>();
+            var rows = input.Split("\r\n");
+            var hands = new List<Hand>();
 
-            foreach (var handWithBid in handsWithBids)
+            foreach (var row in rows)
             {
-                string[] hand = handWithBid.Split(" ")[0].Select(c => c.ToString()).ToArray();
-                int bid = int.Parse(handWithBid.Split(" ")[1]);
-                int type = GetHandType(hand);
+                var handCards = row.Split(" ")[0].Select(c => c.ToString()).ToList();
+                var handBid = int.Parse(row.Split(" ")[1]);
+                var handType = GetHandType(handCards);
 
-                sortedHands.Add(
-                    new SortedHand
+                hands.Add(
+                    new Hand
                     {
-                        Hand = string.Join("", hand),
-                        HandType = type,
-                        Bid = bid
+                        HandCards = string.Join("", handCards),
+                        HandType = handType,
+                        HandBid = handBid
                     }
                 );
             }
 
-            sortedHands.Sort(
+            hands.Sort(
                 (first, second) =>
                 {
                     if (first.HandType > second.HandType)
@@ -106,11 +106,17 @@ namespace AOC2023.Days
                     if (first.HandType < second.HandType)
                         return -1;
 
-                    for (int i = 0; i < first.Hand.Length; i++)
+                    for (var i = 0; i < first.HandCards.Length; i++)
                     {
-                        if (cardMap[first.Hand[i].ToString()] > cardMap[second.Hand[i].ToString()])
+                        if (
+                            cardMap[first.HandCards[i].ToString()]
+                            > cardMap[second.HandCards[i].ToString()]
+                        )
                             return 1;
-                        if (cardMap[first.Hand[i].ToString()] < cardMap[second.Hand[i].ToString()])
+                        if (
+                            cardMap[first.HandCards[i].ToString()]
+                            < cardMap[second.HandCards[i].ToString()]
+                        )
                             return -1;
                     }
 
@@ -119,10 +125,10 @@ namespace AOC2023.Days
                 }
             );
 
-            int total = 0;
-            for (int i = 0; i < sortedHands.Count; i++)
+            var total = 0;
+            for (var i = 0; i < hands.Count; i++)
             {
-                total += sortedHands[i].Bid * (i + 1);
+                total += hands[i].HandBid * (i + 1);
             }
 
             Console.WriteLine($"Part 1: {total}");
@@ -130,7 +136,92 @@ namespace AOC2023.Days
 
         public static void Part2()
         {
-            //Console.WriteLine($"Part 2: {copyCards.Count}");
+            var cardMap = new Dictionary<string, int>
+            {
+                { "J", 1 },
+                { "2", 2 },
+                { "3", 3 },
+                { "4", 4 },
+                { "5", 5 },
+                { "6", 6 },
+                { "7", 7 },
+                { "8", 8 },
+                { "9", 9 },
+                { "T", 10 },
+                { "Q", 11 },
+                { "K", 12 },
+                { "A", 13 }
+            };
+            var rows = input.Split("\r\n");
+            var hands = new List<Hand>();
+
+            foreach (var hand in rows)
+            {
+                var handCardsOriginal = hand.Split(" ")[0].Select(c => c.ToString()).ToList();
+                var handCardsCopy = handCardsOriginal.ToList();
+                var handBid = int.Parse(hand.Split(" ")[1]);
+
+                // JJJJJ edge case
+                if (!handCardsCopy.All(c => c == "J"))
+                {
+                    var mostCommonCard = handCardsCopy
+                        .Where(c => c != "J")
+                        .GroupBy(c => c)
+                        .OrderByDescending(g => g.Count())
+                        .First()
+                        .Key;
+                    handCardsCopy = string.Join("", handCardsCopy)
+                        .Replace("J", mostCommonCard)
+                        .Select(c => c.ToString())
+                        .ToList();
+                }
+
+                var handType = GetHandType(handCardsCopy);
+
+                hands.Add(
+                    new Hand
+                    {
+                        HandCards = string.Join("", handCardsOriginal),
+                        HandType = handType,
+                        HandBid = handBid
+                    }
+                );
+            }
+
+            hands.Sort(
+                (first, second) =>
+                {
+                    if (first.HandType > second.HandType)
+                        return 1;
+                    if (first.HandType < second.HandType)
+                        return -1;
+
+                    for (var i = 0; i < first.HandCards.Length; i++)
+                    {
+                        if (
+                            cardMap[first.HandCards[i].ToString()]
+                            > cardMap[second.HandCards[i].ToString()]
+                        )
+                            return 1;
+                        if (
+                            cardMap[first.HandCards[i].ToString()]
+                            < cardMap[second.HandCards[i].ToString()]
+                        )
+                            return -1;
+                    }
+
+                    // shouldn't happen
+                    return 0;
+                }
+            );
+
+            var total = 0;
+            for (var i = 0; i < hands.Count; i++)
+            {
+                total += hands[i].HandBid * (i + 1);
+            }
+
+            Console.WriteLine($"Part 2: {total}");
         }
     }
 }
