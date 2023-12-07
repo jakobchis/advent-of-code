@@ -10,5 +10,7 @@
 //Day04.Part2();
 //Day05.Part1();
 //Day05.Part2();
-Day06.Part1();
-Day06.Part2();
+//Day06.Part1();
+//Day06.Part2();
+Day07.Part1();
+Day07.Part2();
