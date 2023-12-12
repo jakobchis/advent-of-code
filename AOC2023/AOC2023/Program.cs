@@ -18,7 +18,8 @@
 //Day08.Part2();
 //Day09.Part1();
 //Day09.Part2();
-Day10.Part1();
-Day10.Part2();
+//Day10.Part1();
+//Day10.Part2();
 //Day11.Part1();
 //Day11.Part2();
+Day12.Part1();
