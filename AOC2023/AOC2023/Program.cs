@@ -24,5 +24,7 @@
 //Day11.Part2();
 //Day12.Part1();
 //Day13.Part1();
-Day14.Part1();
-Day14.Part2();
+//Day14.Part1();
+//Day14.Part2();
+Day15.Part1();
+Day15.Part2();
