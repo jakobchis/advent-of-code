@@ -2,5 +2,7 @@
 
 using AOC2024.Days;
 
-Day01.Part01();
-Day01.Part02();
+// Day01.Part01();
+// Day01.Part02();
+Day02.Part01();
+Day02.Part02();
