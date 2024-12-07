@@ -2,14 +2,9 @@ namespace AOC2024.Days;
 
 public class Day06
 {
-    private string input;
-
-    public Day06()
-    {
-        input = File.ReadAllText(
-            "/Users/jakobchisholm/Code/advent-of-code/AOC2024/AOC2024/Days/Day06.txt"
-        );
-    }
+    private string input = File.ReadAllText(
+        "/Users/jakobchisholm/Code/advent-of-code/AOC2024/AOC2024/Days/Day06.txt"
+    );
 
     public List<Point> Part01()
     {
