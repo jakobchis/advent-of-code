@@ -9,7 +9,7 @@ public class Day07
     public void Part01()
     {
         var inputEquations = input.Split("\n");
-        Int64 sumValues = 0;
+        Int64 sumResults = 0;
 
         foreach (var inputEquation in inputEquations)
         {
@@ -18,19 +18,19 @@ public class Day07
             var result = Int64.Parse(splitEquation[0]);
             var values = splitEquation[1].Split(" ").Select(Int64.Parse).ToList();
 
-            if (SolvablePart1(result, values))
+            if (SolvablePart1(result, values, values[0]))
             {
-                sumValues += result;
+                sumResults += result;
             }
         }
 
-        Console.WriteLine($"Part 1: {sumValues}");
+        Console.WriteLine($"Part 1: {sumResults}");
     }
 
     public void Part02()
     {
         var inputEquations = input.Split("\n");
-        Int64 sumValues = 0;
+        Int64 sumResults = 0;
 
         foreach (var inputEquation in inputEquations)
         {
@@ -39,74 +39,42 @@ public class Day07
             var result = Int64.Parse(splitEquation[0]);
             var values = splitEquation[1].Split(" ").Select(Int64.Parse).ToList();
 
-            if (SolvablePart2(result, values))
+            if (SolvablePart2(result, values, values[0]))
             {
-                sumValues += result;
+                sumResults += result;
             }
         }
 
-        Console.WriteLine($"Part 2: {sumValues}");
+        Console.WriteLine($"Part 2: {sumResults}");
     }
 
-    private bool SolvablePart1(Int64 result, List<Int64> values, Int64 current = 0, int n = 0)
+    private bool SolvablePart1(Int64 result, List<Int64> values, Int64 current, int n = 0)
     {
         if (current > result)
-        {
             return false;
-        }
-        if (n == 0)
-        {
-            current = values[n];
-        }
         if (n == values.Count - 1)
-        {
             return current == result;
-        }
 
-        var next = values[n + 1];
-        var currentAfterMultiplying = current * next;
-        var currentAfterAdding = current + next;
+        var currentAfterAdding = current + values[n + 1];
+        var currentAfterMultiplying = current * values[n + 1];
 
-        if (
-            SolvablePart1(result, values, currentAfterMultiplying, n + 1)
-            || SolvablePart1(result, values, currentAfterAdding, n + 1)
-        )
-        {
-            return true;
-        }
-
-        return false;
+        return SolvablePart1(result, values, currentAfterAdding, n + 1)
+            || SolvablePart1(result, values, currentAfterMultiplying, n + 1);
     }
 
-    private bool SolvablePart2(Int64 result, List<Int64> values, Int64 current = 0, int n = 0)
+    private bool SolvablePart2(Int64 result, List<Int64> values, Int64 current, int n = 0)
     {
         if (current > result)
-        {
             return false;
-        }
-        if (n == 0)
-        {
-            current = values[n];
-        }
         if (n == values.Count - 1)
-        {
             return current == result;
-        }
 
-        var next = values[n + 1];
-        var currentAfterMultiplying = current * next;
-        var currentAfterAdding = current + next;
-        var currentAfterConcatenating = Int64.Parse($"{current}{next}");
+        var currentAfterAdding = current + values[n + 1];
+        var currentAfterMultiplying = current * values[n + 1];
+        var currentAfterConcatenating = Int64.Parse($"{current}{values[n + 1]}");
 
-        if (
-            SolvablePart2(result, values, currentAfterMultiplying, n + 1)
-            || SolvablePart2(result, values, currentAfterAdding, n + 1)
-            || SolvablePart2(result, values, currentAfterConcatenating, n + 1)
-        )
-        {
-            return true;
-        }
-
-        return false;
+        return SolvablePart2(result, values, currentAfterAdding, n + 1)
+            || SolvablePart2(result, values, currentAfterMultiplying, n + 1)
+            || SolvablePart2(result, values, currentAfterConcatenating, n + 1);
     }
 }
