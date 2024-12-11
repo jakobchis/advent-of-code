@@ -1,5 +1,3 @@
-using System.Numerics;
-
 namespace AOC2024.Days;
 
 public class Day11
@@ -10,9 +8,10 @@ public class Day11
 
     public void Part01()
     {
-        var blinks = 25;
         var stones = input.Split(" ").Select(Int64.Parse).ToList();
         var stoneCount = 0;
+
+        var blinks = 25;
         for (var a = 0; a < blinks; a++)
         {
             var tempStones = new List<long>();
@@ -45,80 +44,67 @@ public class Day11
 
     public void Part02()
     {
+        var inputStones = input.Split(" ").Select(Int64.Parse).ToList();
+        var stones = new Dictionary<long, long>();
+
+        foreach (var stone in inputStones)
+        {
+            // Stones is a map of stone : count
+            // Rules only get calculated once per unique stone in the map
+            // Each iteration has a fresh list of stones with only the counts carried over
+            stones.Add(stone, 1);
+        }
+
         var blinks = 75;
-        var stones = input.Split(" ").Select(Int64.Parse).ToList();
-        var stoneCount = 0;
-        var memo = new Dictionary<long, List<long>>();
+        for (var a = 0; a < blinks; a++)
+        {
+            stones = Iterate(stones);
+        }
 
-        // go through each stone blinks number of times
-        // memoize the value of each stone after blinks
-        // use that value on future loops to avoid calculating
+        Console.WriteLine($"Part 2: {stones.Values.Sum()}");
+    }
 
-        // for (var b = 0; b < stones.Count; b++)
-        // {
-        //     var stoneCount = 0;
-        //     for (var a = 0; a < blinks; a++)
-        //     {
-        //         if (stones[b] == 0)
-        //         {
-        //             tempStones.Add(1);
-        //             memo.Add(stones[b], [1]);
-        //         }
-        //         else if (stones[b].ToString().Length % 2 == 0)
-        //         {
-        //             var stoneString = stones[b].ToString();
-        //             var newStoneA = Int64.Parse(stoneString.Substring(0, stoneString.Length / 2));
-        //             var newStoneB = Int64.Parse(stoneString.Substring(stoneString.Length / 2));
-        //
-        //             tempStones.Add(newStoneA);
-        //             tempStones.Add(newStoneB);
-        //             memo.Add(stones[b], [newStoneA, newStoneB]);
-        //         }
-        //         else
-        //         {
-        //             tempStones.Add(stones[b] * 2024);
-        //             memo.Add(stones[b], [stones[b] * 2024]);
-        //         }
-        //     }
-        //
-        //     memo.Add(stones[b], );
-        // }
+    private Dictionary<long, long> Iterate(Dictionary<long, long> oldStones)
+    {
+        var newStones = new Dictionary<long, long>();
+        foreach (var oldStone in oldStones)
+        {
+            if (oldStone.Key == 0)
+            {
+                if (!newStones.TryAdd(1, oldStone.Value))
+                {
+                    newStones[1] += oldStone.Value;
+                }
+            }
+            else if (oldStone.Key.ToString().Length % 2 == 0)
+            {
+                var oldStoneString = oldStone.Key.ToString();
+                var newStoneLeft = Int64.Parse(
+                    oldStoneString.Substring(0, oldStoneString.Length / 2)
+                );
+                var newStoneRight = Int64.Parse(
+                    oldStoneString.Substring(oldStoneString.Length / 2)
+                );
 
-        // for (var a = 0; a < blinks; a++)
-        // {
-        //     Console.WriteLine($"Blink {a}");
-        //     var tempStones = new List<long>();
-        //     for (var b = 0; b < stones.Count; b++)
-        //     {
-        //         if (memo.TryGetValue(stones[b], out var value))
-        //         {
-        //             tempStones.AddRange(value);
-        //         }
-        //         else if (stones[b] == 0)
-        //         {
-        //             tempStones.Add(1);
-        //             memo.Add(stones[b], [1]);
-        //         }
-        //         else if (stones[b].ToString().Length % 2 == 0)
-        //         {
-        //             var stoneString = stones[b].ToString();
-        //             var newStoneA = Int64.Parse(stoneString.Substring(0, stoneString.Length / 2));
-        //             var newStoneB = Int64.Parse(stoneString.Substring(stoneString.Length / 2));
-        //
-        //             tempStones.Add(newStoneA);
-        //             tempStones.Add(newStoneB);
-        //             memo.Add(stones[b], [newStoneA, newStoneB]);
-        //         }
-        //         else
-        //         {
-        //             tempStones.Add(stones[b] * 2024);
-        //             memo.Add(stones[b], [stones[b] * 2024]);
-        //         }
-        //     }
-        //     stones = tempStones;
-        //     stoneCount = tempStones.Count;
-        // }
+                if (!newStones.TryAdd(newStoneLeft, oldStone.Value))
+                {
+                    newStones[newStoneLeft] += oldStone.Value;
+                }
 
-        Console.WriteLine($"Part 2: {stoneCount}");
+                if (!newStones.TryAdd(newStoneRight, oldStone.Value))
+                {
+                    newStones[newStoneRight] += oldStone.Value;
+                }
+            }
+            else
+            {
+                if (!newStones.TryAdd(oldStone.Key * 2024, oldStone.Value))
+                {
+                    newStones[oldStone.Key * 2024] += oldStone.Value;
+                }
+            }
+        }
+
+        return newStones;
     }
 }
