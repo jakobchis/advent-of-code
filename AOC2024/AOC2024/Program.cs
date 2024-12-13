@@ -32,3 +32,4 @@ using AOC2024.Days;
 // day11.Part02();
 var day12 = new Day12();
 day12.Part01();
+day12.Part02();
