@@ -181,6 +181,7 @@ public class Day17
             return 0;
         };
 
+        // TODO this would technically find the answer but it's too slow
         var aRegCounter = 1;
         while (true)
         {
