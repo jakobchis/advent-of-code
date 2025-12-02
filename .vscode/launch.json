@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/AOC2025/day-01.js",
+      "program": "${workspaceFolder}/AOC2025/day-02.js",
       "cwd": "${workspaceFolder}/AOC2025"
     }
   ]
