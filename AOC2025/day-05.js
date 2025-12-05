@@ -32,6 +32,10 @@ const part2 = () => {
   let numFreshIngredients = 0;
 
   // TODO sort and then merge overlapping ranges instead
+  // sort by the first number in the range, last number tiebreaker
+  // iterate over ranges, keep a list of merged ranges
+  // if mergedRanges is empty, or the current range's start is after the last merged range's end, add it
+  // otherwise, merge the current range into the last range (extend the end)
 
   for (let i = 0; i < freshRanges.length; i++) {
     const [start, end] = freshRanges[i];
